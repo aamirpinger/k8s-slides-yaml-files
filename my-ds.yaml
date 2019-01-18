@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta2
+kind: DaemonSet
+metadata:
+ name: log-monitor
+spec:
+ selector:
+   matchLabels:
+     app: log-monitor
+ template:
+   metadata:
+     labels:
+       app: log-monitor
+   spec:
+    containers:
+    - name: ds-container
+      image: nginx
+      ports:
+      - containerPort: 80
+
