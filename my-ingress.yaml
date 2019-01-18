@@ -1,0 +1,110 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: hi-web
+  labels:
+    app: hi-web
+spec:
+  containers:
+    - name: hi-web
+      image: aamirpinger/hi
+      ports:
+      - containerPort: 80 # default nginx port
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: hi-web-service
+spec:
+  selector:
+    app: hi-web
+  ports:
+  - port: 80 
+    targetPort: 80 # default nginx port
+  type: NodePort
+
+---
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: helloworld-web
+  labels:
+    app: helloworld-web
+spec:
+  containers:
+    - name: helloworld-web
+      image: aamirpinger/helloworld
+      ports:
+      - containerPort: 80 # default nginx port
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: helloworld-web-service
+spec:
+  selector:
+    app: helloworld-web
+  ports:
+  - port: 80 
+    targetPort: 80 # default nginx port
+  type: NodePort
+
+---
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: flag-web
+  labels:
+    app: flag-web
+spec:
+  containers:
+    - name: flag-web
+      image: aamirpinger/flag
+      ports:
+      - containerPort: 80 # default nginx port
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: flag-web-service
+spec:
+  selector:
+    app: flag-web
+  ports:
+  - port: 80 
+    targetPort: 80 # default nginx port
+  type: NodePort
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /hi
+        backend:
+          serviceName: hi-web-service
+          servicePort: 80
+      - path: /helloworld
+        backend:
+          serviceName: helloworld-web-service
+          servicePort: 80
+      - path: /flag
+        backend:
+          serviceName: flag-web-service
+          servicePort: 80
