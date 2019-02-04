@@ -1,7 +1,7 @@
 kind: Pod
 apiVersion: v1
 metadata:
- name: myapp
+ name: myapp-ln-http
 spec:
  containers:
  - name: myapp

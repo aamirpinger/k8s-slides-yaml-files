@@ -1,15 +1,14 @@
 kind: Pod
 apiVersion: v1
 metadata:
- name: myapp-ln-exec
+ name: myapp-rn-http
 spec:
  containers:
  - name: myapp
    image: nginx
    ports:
    - containerPort: 80
-   livenessProbe:
-     exec:
-       command:
-       - cat
-       - /tmp/healthy
+   readinessProbe:
+     httpGet:     
+       port: 80
+       path: /
