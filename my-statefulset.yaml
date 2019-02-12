@@ -1,0 +1,74 @@
+kind: List
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: sfs-svc
+    labels:
+      app: sfs-app
+  spec:
+    ports:
+    - port: 80
+      name: web
+    clusterIP: None
+    selector:
+      app: sfs-app
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    name: web
+  spec:
+    selector:
+      matchLabels:
+        app: sfs-app # has to match .spec.template.metadata.labels
+    serviceName: "sfs-svc"
+    replicas: 3 
+    template:
+      metadata:
+        labels:
+          app: sfs-app # has to match .spec.selector.matchLabels
+      spec:
+        terminationGracePeriodSeconds: 10
+        containers:
+        - name: test-container
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          command: [ "sh", "-c"]
+          args:
+          - while true; do
+              printenv MY_NODE_NAME MY_POD_NAME MY_POD_NAMESPACE >> /var/sl/output.txt;
+              printenv MY_POD_IP >> /var/sl/output.txt;
+              date >> var/sl/output.txt; 
+              cat /var/sl/output.txt;
+              sleep 999999;
+            done;
+          env:
+            - name: MY_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          volumeMounts:
+          - name: www
+            mountPath: /var/sl
+    volumeClaimTemplates:
+    - metadata:
+        name: www
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        #storageClassName: classNameIfAny
+        resources:
+          requests:
+            storage: 1Mi
