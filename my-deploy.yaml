@@ -1,0 +1,15 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: my-deploy
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: deploy-pod
+      labels:
+        app: deploy-app
+    spec:
+      containers:
+      - image: aamirpinger/helloworld
+        name: container
