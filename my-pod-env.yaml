@@ -1,0 +1,15 @@
+kind: Pod
+apiVersion: v1
+metadata:
+ name: myapp-env
+spec:
+ containers:
+ - name: myapp
+   image: nginx
+   ports:
+   - containerPort: 80
+   env:
+   - name: AUTHOR_FIRST_NAME
+     value: "Aamir"
+   - name: FULL_NAME
+     value: "$(AUTHOR_FIRST_NAME) Pinger"
