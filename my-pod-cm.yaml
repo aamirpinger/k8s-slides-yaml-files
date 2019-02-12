@@ -1,0 +1,15 @@
+kind: Pod
+apiVersion: v1
+metadata:
+ name: pod-cm
+spec:
+ volumes:
+ - name: cm-vol
+   configMap:
+     name: cm-yaml
+ containers:
+ - name: configmap-container
+   image: nginx
+   volumeMounts:
+   - name: cm-vol
+     mountPath: /etc/config
