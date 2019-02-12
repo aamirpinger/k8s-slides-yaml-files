@@ -1,0 +1,15 @@
+kind: Pod
+apiVersion: v1
+metadata:
+ name: pod-scr
+spec:
+ volumes:
+ - name: scr-vol
+   secret:
+     secretName: scr-yaml
+ containers:
+ - name: secret-container
+   image: nginx
+   volumeMounts:
+   - name: scr-vol
+     mountPath: /etc/secret
