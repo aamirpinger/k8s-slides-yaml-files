@@ -1,0 +1,11 @@
+kind: Pod
+apiVersion: v1
+metadata:
+ name: pod-cm-env
+spec:
+ containers:
+ - name: configmap-container-env
+   image: nginx
+   envFrom:
+   - configMapRef:
+       name: cm-yaml
