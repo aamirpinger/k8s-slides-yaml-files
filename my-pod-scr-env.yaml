@@ -1,0 +1,11 @@
+kind: Pod
+apiVersion: v1
+metadata:
+ name: pod-scr-env
+spec:
+ containers:
+ - name: secret-container-env
+   image: nginx
+   envFrom:
+   - secretRef:
+       name: scr-yaml
