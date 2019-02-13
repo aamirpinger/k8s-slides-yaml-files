@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-pv
+spec:
+  volumes:
+  - name: pvol
+    persistentVolumeClaim:
+      claimName: pvc
+  containers:
+  - image: nginx
+    name: cont-one
+    volumeMounts:
+    - name: pvol
+      mountPath: /tmp/pv
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Never
