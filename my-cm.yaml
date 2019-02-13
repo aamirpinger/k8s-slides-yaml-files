@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-yaml
+data:
+  fname: aamir
+  lname: pinger
