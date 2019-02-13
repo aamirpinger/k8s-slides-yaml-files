@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+ name: scr-string-data
+data:
+   fname: YWFtaXI=
+   lname: cGluZ2Vy
+stringData:
+  username: aamirpinger
