@@ -1,0 +1,13 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: tmp-pod
+  labels:
+    app: tmp-pod
+spec:
+ containers:
+ - name: test
+   image: tutum/curl:alpine
+   command: ["sh","-c","sleep 90000"]
+   ports:
+   - containerPort: 80
