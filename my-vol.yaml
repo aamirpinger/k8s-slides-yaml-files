@@ -1,0 +1,30 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: myvol
+  labels:
+    app: myapp
+spec:
+  volumes:
+  - name: share-dir
+    emptyDir: {}
+  containers:
+  - name: container-one
+    image: nginx
+    ports:
+    - containerPort: 80
+    imagePullPolicy: IfNotPresent
+    command: ["sh"]
+    args: ["-c","while true; do date >> /var/cont-one/mylog.txt; sleep 5; done"]
+    volumeMounts:
+    - name: share-dir
+      mountPath: /var/cont-one
+  - name: container-two
+    image: nginx
+    ports:
+    - containerPort: 80
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: share-dir
+      mountPath: /var/cont-two
+  restartPolicy: Never
