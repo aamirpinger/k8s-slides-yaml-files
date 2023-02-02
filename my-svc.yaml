@@ -3,6 +3,9 @@ kind: Service
 metadata:
  name: my-service
 spec:
+  containers:
+  - name: con1
+    image: nginx:alpine
  ports:
  - port: 8080
    targetPort: 80
